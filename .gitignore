@@ -1,5 +1,7 @@
 MACOSX/
 config.json
+*.session
+*.session-journal
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
