@@ -6,7 +6,7 @@ class Client:
         self.token = token
         self.debug = debug
         self.version = version
-    
+
     def _method(self, name, **kwargs):
         return requests.post(
             f'https://api.vk.com/method/{name}',

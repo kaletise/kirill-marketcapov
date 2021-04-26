@@ -15,7 +15,7 @@ class Application:
             func = _feature['class'](self)
             self.features[_feature['name']] = func
             setattr(self, _feature['name'], func)
-        
+
         self.running = True
 
         for _feature in self.features.values():
