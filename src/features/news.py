@@ -6,7 +6,7 @@ import service.service
 import utils.utils
 
 
-@service.service.register_feature('news')
+@service.service.register_main_thread_feature('news')
 class NewsFeature:
     def __init__(self, app):
         self.app = app
@@ -23,5 +23,8 @@ class NewsFeature:
                 self.app.client.method('wall.post', message=event.text)
 
     def run(self):
+        pass
+
+    def start(self):
         self.client.start()
         self.client.run_until_disconnected()
