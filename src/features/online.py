@@ -12,5 +12,8 @@ class OnlineFeature:
     @utils.utils.asynchronous
     def run(self):
         while self.app.running:
-            self.app.client.method('account.setOnline')
-            time.sleep(300)
+            try:
+                self.app.client.method('account.setOnline')
+            except Exception:
+                pass
+            time.sleep(290)

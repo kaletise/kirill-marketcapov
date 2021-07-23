@@ -19,8 +19,32 @@ class NewsFeature:
 
         @self.client.on(telethon.events.NewMessage(chats='@markettwits'))
         async def news_handler(event):
-            if '#крипто' in event.text:
-                self.app.client.method('wall.post', message=event.text)
+            if '#крипто' in event.text and not event.photo:
+                text = event.text.replace('**', '').replace('__', '')
+                status = 0
+                to_be_replaced = ''
+                data = ''
+                for char in text:
+                    if status == 0 and char == '[':
+                        to_be_replaced += '['
+                        status = 1
+                    elif status == 1 and char != ']':
+                        data += char
+                    elif status == 1 and char == ']':
+                        to_be_replaced += data + ']'
+                        status = 2
+                    elif status == 2 and char == '(':
+                        status = 3
+                        to_be_replaced += '('
+                    elif status == 3 and char != ')':
+                        to_be_replaced += char
+                    elif status == 3 and char == ')':
+                        to_be_replaced += ')'
+                        text = text.replace(to_be_replaced, data)
+                        status = 0
+                        to_be_replaced = ''
+                        data = ''
+                self.app.client.method('wall.post', message=text)
 
     def run(self):
         pass

@@ -32,13 +32,14 @@ class StatusFeature:
     @utils.utils.asynchronous
     def run(self):
         while self.app.running:
-            status = ''
-            price = self._get_price()
-
-            status += f'🚀 BTC: ${self._format(price["bitcoin"]["usd"])}; '
-            status += f'ETH: ${self._format(price["ethereum"]["usd"])} | '
-            status += f'🕓 Last update: {self._get_datetime()} UTC'
-
-            self.app.client.method('status.set', text=status)
-
+            try:
+                price = self._get_price()
+                status = (
+                    f'🚀 BTC: ${self._format(price["bitcoin"]["usd"])}; '
+                    f'ETH: ${self._format(price["ethereum"]["usd"])} | '
+                    f'🕓 Last update: {self._get_datetime()} UTC'
+                )
+                self.app.client.method('status.set', text=status)
+            except Exception:
+                pass
             time.sleep(60)
